@@ -6,7 +6,10 @@ export class Player {
   y: number;
   size: number;
   speed: number;
+  totalSprites: number = 4;
+  currentSprite: number = 1;
   bulletController: BulletController;
+  img: HTMLImageElement;
 
   constructor(
     x: number = 0,
@@ -15,34 +18,58 @@ export class Player {
   ) {
     this.x = x;
     this.y = y;
-    this.size = 20;
-    this.speed = 2;
+    this.size = 32;
+    this.speed = 1;
     this.bulletController = bulletController;
+    this.img = new Image();
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = 'green';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
+  draw(ctx: CanvasRenderingContext2D, keys: Set<string>) {
+    // ctx.fillStyle = 'green';
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+    // ctx.fill();
+    this.currentSprite =
+      this.currentSprite < this.totalSprites - 1 ? this.currentSprite + 1 : 0;
+    if (keys.has('ArrowLeft')) {
+      this.totalSprites = 3;
+      this.img.src = '../../assets/ship_left.png';
+    } else if (keys.has('ArrowRight')) {
+      this.totalSprites = 3;
+      this.img.src = '../../assets/ship_right.png';
+    } else {
+      this.totalSprites = 4;
+      this.img.src = '../../assets/ship_front.png';
+    }
+    ctx.drawImage(
+      this.img,
+      this.currentSprite * this.size,
+      0,
+      this.size,
+      this.size,
+      this.x - this.size / 2,
+      this.y - this.size / 2,
+      this.size,
+      this.size,
+    );
   }
 
   move(keys: Set<string>) {
-    if (keys.has('ArrowUp') && this.y >= this.size) this.y -= this.speed;
-    if (keys.has('ArrowDown') && this.y <= canvas.height - this.size)
+    if (keys.has('ArrowUp') && this.y >= this.size / 2) this.y -= this.speed;
+    if (keys.has('ArrowDown') && this.y <= canvas.height - this.size / 2)
       this.y += this.speed;
-    if (keys.has('ArrowLeft') && this.x >= this.size) this.x -= this.speed;
-    if (keys.has('ArrowRight') && this.x <= canvas.width - this.size)
+    if (keys.has('ArrowLeft') && this.x >= this.size / 2) this.x -= this.speed;
+    if (keys.has('ArrowRight') && this.x <= canvas.width - this.size / 2)
       this.x += this.speed;
   }
 
   shoot(keys: Set<string>) {
     if (keys.has(' ')) {
       const bulletX = this.x;
-      const bulletY = this.y - this.size;
+      const bulletY = this.y;
       const bulletDamage = 1;
       const bulletDelay = 10;
-      const bulletSpeed = 4;
+      const bulletSpeed = 3;
       this.bulletController.shoot(
         bulletX,
         bulletY,

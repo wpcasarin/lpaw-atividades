@@ -18,7 +18,7 @@ export const init = () => {
 const draw = () => {
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // clear canvas
-    player.draw(ctx);
+    player.draw(ctx, keys);
   }
 };
 let lastTime = 0;

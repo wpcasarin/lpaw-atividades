@@ -8,7 +8,7 @@ export class Bullet {
   constructor(x: number, y: number, speed: number, damage: number) {
     this.x = x;
     this.y = y;
-    this.size = 4;
+    this.size = 2;
     this.damage = damage;
     this.speed = speed;
   }
