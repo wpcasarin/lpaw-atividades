@@ -19,7 +19,7 @@ export class Player {
     this.x = x;
     this.y = y;
     this.size = 32;
-    this.speed = 1;
+    this.speed = 4;
     this.bulletController = bulletController;
     this.img = new Image();
   }
@@ -68,8 +68,8 @@ export class Player {
       const bulletX = this.x;
       const bulletY = this.y;
       const bulletDamage = 1;
-      const bulletDelay = 10;
-      const bulletSpeed = 3;
+      const bulletDelay = 5;
+      const bulletSpeed = 12;
       this.bulletController.shoot(
         bulletX,
         bulletY,
