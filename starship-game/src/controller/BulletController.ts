@@ -1,4 +1,4 @@
-import { Bullet } from './../objects/Bullet';
+import { Bullet } from "./../objects/Bullet";
 
 export class BulletController {
   canvas: HTMLCanvasElement;
@@ -20,12 +20,14 @@ export class BulletController {
   update(ctx: CanvasRenderingContext2D) {
     this.bullets.forEach((bullet) => {
       // remove offscreen bullets
-      if (bullet.y <= 0) {
-        const index = this.bullets.indexOf(bullet);
-        this.bullets.splice(index, 1);
-      }
+      bullet.y <= 0 && this.destroyBullet(bullet);
       bullet.draw(ctx);
       bullet.move();
     });
+  }
+
+  destroyBullet(bullet: Bullet) {
+    const index = this.bullets.indexOf(bullet);
+    this.bullets.splice(index, 1);
   }
 }

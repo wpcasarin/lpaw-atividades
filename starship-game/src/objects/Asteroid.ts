@@ -1,3 +1,5 @@
+import { randomNumber } from "./../util";
+
 export class Asteroid {
   x: number;
   y: number;
@@ -9,21 +11,15 @@ export class Asteroid {
   currentSprite: number = 1;
   img: HTMLImageElement;
 
-  constructor(
-    x: number,
-    y: number,
-    speed: number,
-    health: number,
-    type: number,
-  ) {
-    this.x = x;
-    this.y = y;
+  constructor(speed: number, health: number) {
     this.size = 75;
+    this.x = randomNumber(0, 21) * (this.size / 2);
+    this.y = -1 * randomNumber(0, 16) * (this.size / 2);
     this.health = health;
     this.speed = speed;
-    this.type = type;
+    this.type = randomNumber(0, 8);
     this.img = new Image();
-    this.img.src = '../../assets/asteroids.png';
+    this.img.src = "../../assets/asteroids.png";
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -41,7 +37,7 @@ export class Asteroid {
       this.currentSprite < this.totalSprites - 1 ? this.currentSprite + 1 : 0;
     ctx.save();
     ctx.shadowBlur = 4;
-    ctx.shadowColor = '#dfddffdd';
+    ctx.shadowColor = "#dfddffdd";
     ctx.drawImage(
       this.img,
       this.currentSprite * this.size,
@@ -51,7 +47,7 @@ export class Asteroid {
       this.x - this.size / 2,
       this.y - this.size / 2,
       this.size / 2,
-      this.size / 2,
+      this.size / 2
     );
     ctx.restore();
   }
@@ -60,10 +56,15 @@ export class Asteroid {
     this.y += this.speed;
   }
 
-  collision(playerX: number, playerY: number, playerSize: number) {
-    let a = playerSize / 4 + this.size / 4;
-    let x = this.x - this.size / 4 - playerX;
-    let y = this.y - this.size / 4 - playerY;
+  collision(objectX: number, objectY: number, objectSize: number) {
+    let a = objectSize / 4 + this.size / 4;
+    let x = this.x - this.size / 4 - objectX;
+    let y = this.y - this.size / 4 - objectY;
     return a > Math.sqrt(x * x + y * y) ? true : false;
+  }
+
+  resetPosition() {
+    this.x = randomNumber(0, 21) * (this.size / 2);
+    this.y = -1 * randomNumber(0, 16) * (this.size / 2);
   }
 }

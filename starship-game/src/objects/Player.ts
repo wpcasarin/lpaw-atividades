@@ -1,5 +1,6 @@
-import { BulletController } from './../controller/BulletController';
-import { canvas } from '../context';
+import { AsteroidController } from "./../controller/AsteroidController";
+import { BulletController } from "./../controller/BulletController";
+import { canvas } from "../context";
 
 export class Player {
   x: number;
@@ -9,18 +10,21 @@ export class Player {
   totalSprites: number = 4;
   currentSprite: number = 1;
   bulletController: BulletController;
+  asteroidController: AsteroidController;
   img: HTMLImageElement;
 
   constructor(
     x: number = 0,
     y: number = 0,
     bulletController: BulletController,
+    asteroidController: AsteroidController
   ) {
     this.x = x;
     this.y = y;
     this.size = 32;
     this.speed = 4;
     this.bulletController = bulletController;
+    this.asteroidController = asteroidController;
     this.img = new Image();
   }
 
@@ -31,15 +35,15 @@ export class Player {
     // ctx.fill();
     this.currentSprite =
       this.currentSprite < this.totalSprites - 1 ? this.currentSprite + 1 : 0;
-    if (keys.has('ArrowLeft')) {
+    if (keys.has("ArrowLeft")) {
       this.totalSprites = 3;
-      this.img.src = '../../assets/ship_left.png';
-    } else if (keys.has('ArrowRight')) {
+      this.img.src = "../../assets/ship_left.png";
+    } else if (keys.has("ArrowRight")) {
       this.totalSprites = 3;
-      this.img.src = '../../assets/ship_right.png';
+      this.img.src = "../../assets/ship_right.png";
     } else {
       this.totalSprites = 4;
-      this.img.src = '../../assets/ship_front.png';
+      this.img.src = "../../assets/ship_front.png";
     }
     ctx.drawImage(
       this.img,
@@ -50,21 +54,21 @@ export class Player {
       this.x - this.size / 2,
       this.y - this.size / 2,
       this.size,
-      this.size,
+      this.size
     );
   }
 
   move(keys: Set<string>) {
-    if (keys.has('ArrowUp') && this.y >= this.size / 2) this.y -= this.speed;
-    if (keys.has('ArrowDown') && this.y <= canvas.height - this.size / 2)
+    if (keys.has("ArrowUp") && this.y >= this.size / 2) this.y -= this.speed;
+    if (keys.has("ArrowDown") && this.y <= canvas.height - this.size / 2)
       this.y += this.speed;
-    if (keys.has('ArrowLeft') && this.x >= this.size / 2) this.x -= this.speed;
-    if (keys.has('ArrowRight') && this.x <= canvas.width - this.size / 2)
+    if (keys.has("ArrowLeft") && this.x >= this.size / 2) this.x -= this.speed;
+    if (keys.has("ArrowRight") && this.x <= canvas.width - this.size / 2)
       this.x += this.speed;
   }
 
   shoot(keys: Set<string>) {
-    if (keys.has(' ')) {
+    if (keys.has(" ")) {
       const bulletX = this.x;
       const bulletY = this.y;
       const bulletDamage = 1;
@@ -75,7 +79,7 @@ export class Player {
         bulletY,
         bulletDamage,
         bulletDelay,
-        bulletSpeed,
+        bulletSpeed
       );
     }
   }
