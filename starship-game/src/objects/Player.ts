@@ -12,12 +12,14 @@ export class Player {
   bulletController: BulletController;
   asteroidController: AsteroidController;
   img: HTMLImageElement;
+  playing: boolean;
 
   constructor(
     x: number = 0,
     y: number = 0,
     bulletController: BulletController,
-    asteroidController: AsteroidController
+    asteroidController: AsteroidController,
+    playing: boolean = true
   ) {
     this.x = x;
     this.y = y;
@@ -26,6 +28,7 @@ export class Player {
     this.bulletController = bulletController;
     this.asteroidController = asteroidController;
     this.img = new Image();
+    this.playing = playing;
   }
 
   draw(ctx: CanvasRenderingContext2D, keys: Set<string>) {
@@ -44,6 +47,10 @@ export class Player {
     } else {
       this.totalSprites = 4;
       this.img.src = "../../assets/ship_front.png";
+    }
+    if (this.asteroidController.collision) {
+      this.totalSprites = 9;
+      this.img.src = "../../assets/ship_explosion.png";
     }
     ctx.drawImage(
       this.img,

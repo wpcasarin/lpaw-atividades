@@ -1,3 +1,4 @@
+import { Fuel } from "./objects/Fuel";
 import { AsteroidController } from "./controller/AsteroidController";
 import { handleKeypress, keys } from "./inputs";
 import { ctx, canvas } from "./context";
@@ -13,10 +14,13 @@ const player = new Player(
   bulletController,
   asteroidController
 );
+const fuel = new Fuel(0, 0, player);
 
-let playing = true;
+let countdown = 10; // countdown for player explosion sprite
 
 export const init = () => {
+  countdown = 10;
+  fuel.resetPosition();
   Array.from({ length: 20 }).forEach(() =>
     player.asteroidController.asteroids.push(new Asteroid(4, 1))
   );
@@ -28,6 +32,13 @@ const draw = () => {
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // clear canvas
     player.draw(ctx, keys);
+    player.asteroidController.explosions.forEach((exp) => {
+      if (exp.countdown <= 0) {
+        const index = player.asteroidController.explosions.indexOf(exp);
+        player.asteroidController.explosions.splice(index, 1);
+      }
+      exp.draw(ctx as CanvasRenderingContext2D);
+    });
   }
 };
 let lastTime = 0;
@@ -41,15 +52,17 @@ const getFPS = () => {
 
 const update = () => {
   getFPS();
+  fuel.update(ctx as CanvasRenderingContext2D);
   player.bulletController.update(ctx as CanvasRenderingContext2D);
   player.asteroidController.update(ctx as CanvasRenderingContext2D, player);
   player.move(keys);
   player.shoot(keys);
-  playing = !player.asteroidController.collision;
+  player.asteroidController.collision && countdown--;
+  if (countdown <= 0) player.playing = false;
 };
 
 const loop = () => {
-  playing &&
+  player.playing &&
     setTimeout(() => {
       draw();
       update();
