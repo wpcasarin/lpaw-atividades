@@ -15,10 +15,14 @@ const player = new Player(
   asteroidController
 );
 const fuel = new Fuel(0, 0, player);
+const ambientSound = new Audio("../sound/ambient.ogg");
 
 let countdown = 10; // countdown for player explosion sprite
 
 export const init = () => {
+  ambientSound.loop = true;
+  ambientSound.volume = 0.5;
+  ambientSound?.play();
   countdown = 10;
   fuel.resetPosition();
   Array.from({ length: 20 }).forEach(() =>

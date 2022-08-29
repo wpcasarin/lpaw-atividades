@@ -10,3 +10,9 @@ Asteroid assets
 
 Explosion assets
 <https://rafagars.itch.io/explosion-effect>
+
+Ship shot sound
+<https://www.soundfishing.eu/sound/laser-gun/>
+
+Ambient sound
+<https://www.videvo.net/sound-effect/space-shuttle-int-co-pe1075907/256951/>

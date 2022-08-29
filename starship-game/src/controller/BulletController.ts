@@ -9,9 +9,17 @@ export class BulletController {
     this.canvas = canvas;
   }
 
-  shoot(x: number, y: number, damage: number, delay: number, speed: number) {
+  shoot(
+    x: number,
+    y: number,
+    damage: number,
+    delay: number,
+    speed: number,
+    audio: HTMLAudioElement
+  ) {
     if (this.timerTillNextBullet <= 0) {
       this.bullets.push(new Bullet(x, y, speed, damage));
+      audio.play();
       this.timerTillNextBullet = delay;
     }
     this.timerTillNextBullet--;

@@ -13,6 +13,7 @@ export class Player {
   asteroidController: AsteroidController;
   img: HTMLImageElement;
   playing: boolean;
+  shotAudio: HTMLAudioElement;
 
   constructor(
     x: number = 0,
@@ -29,6 +30,9 @@ export class Player {
     this.asteroidController = asteroidController;
     this.img = new Image();
     this.playing = playing;
+    this.shotAudio = new Audio("../../sound/shot.ogg");
+    this.shotAudio.loop = true;
+    // this.shotAudio.volume = 50;
   }
 
   draw(ctx: CanvasRenderingContext2D, keys: Set<string>) {
@@ -81,13 +85,17 @@ export class Player {
       const bulletDamage = 1;
       const bulletDelay = 5;
       const bulletSpeed = 12;
+      this.shotAudio.play();
       this.bulletController.shoot(
         bulletX,
         bulletY,
         bulletDamage,
         bulletDelay,
-        bulletSpeed
+        bulletSpeed,
+        this.shotAudio
       );
+    } else {
+      this.shotAudio.pause();
     }
   }
 }
